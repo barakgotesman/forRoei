@@ -54,6 +54,8 @@
 
     </style>
     <script>
+
+
     $( document ).ready(function() 
     {
         // just because im lazy
@@ -84,16 +86,8 @@
                 }
         });
 
-        var rates_data
-        update_rates = () =>
-        {
-                var json = $.getJSON( "https://zroiyvc.github.io/rates.json", function(data) {
-                    rates_data=JSON.stringify(data)
-                    console.log(JSON.stringify(data))
-                })
-        }
-        update_rates()
-        console.log('testsssss',rates_data)
+       
+
         // main method that calc price and output the price to user.
         update_price = () => {
             let totalprice = 0  // sum the total cost of the order 
@@ -117,14 +111,15 @@
                 },2000);
             }
 
-            
-            console.log('our data'+rates_data)
+       
             $(".priceInput").eq(0).val(totalprice+"  ILS")   
-            /*                                           // update input to show the total price
-            $(".priceInput").eq(1).val(totalprice*rates_data['usd']+"  USD")
-            $(".priceInput").eq(2).val(totalprice*rates_data['eur']+"  EUR")
-            $(".priceInput").eq(3).val(totalprice*rates_data['btc']+"  BTC")
-            */
+            var jqxhr = $.getJSON( "https://zroiyvc.github.io/rates.json", function(data) {
+                console.log( "success" , data);
+                $(".priceInput").eq(1).val(totalprice*data['usd']+"  USD")
+                $(".priceInput").eq(2).val(totalprice*data['eur']+"  EUR")
+                $(".priceInput").eq(3).val(totalprice*data['btc']+"  BTC")
+            })     
+
         }
  
         update_price()
@@ -135,6 +130,7 @@
 </head>
 
 <body>
+    <button onclick="hey()">text</button>
     <div class="container bg-light pt-2">
 
         <div class="clearfix">
@@ -231,7 +227,7 @@
 
             <hr class="mt-3">
             <div class="row bg-info text-dark p-4">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <label>Total Cost:</label>
                     <div class="row">
                     <input type="text" id="priceInput" readonly value="0" class="form-control priceInput m-2 col">
@@ -240,10 +236,8 @@
                     <input type="text" id="priceInput" readonly value="0" class="form-control priceInput m-2 col">
                     </div>
                 </div>
-                <div class="col align-middle p-3">
-                    <div class="d-grid gap-2">
+                <div class="col text-center">                        
                         <input type="submit" value="send order"  class="btn-outline-primary btn-lg " >
-                    </div>
                 </div>
             </div>
                 
